@@ -1,0 +1,12 @@
+{
+  "symbol": "RELIANCE",
+  "date": "2026-11-12",
+  "entry": 1341.5,
+  "stop": 1335.6,
+  "stop_label": "opening-range midpoint: (1339.4 + 1331.9) / 2 = 1335.65, rounded down",
+  "target": 1353.3,
+  "target_label": "2.0R (2.0 times the risk)",
+  "risk_per_share": 5.9,
+  "reward_risk": 2.0,
+  "flat_by": "15:10"
+}
