@@ -63,6 +63,25 @@ def main():
     print(f"{passed} passed, {blocked} blocked at {now.strftime('%Y-%m-%d %H:%M')}.")
     if blocked:
         print("Blocked orders do not go to a broker. Fix the order or your rules, then check again.")
+        
+    import hashlib
+    verdicts = []
+    for o in orders:
+        core = {k: o[k] for k in ("symbol", "side", "shares", "entry", "stop", "target") if k in o}
+        fp = hashlib.sha256(json.dumps(core, sort_keys=True).encode()).hexdigest()[:16]
+        risk_per_share = o["entry"] - o["stop"]
+        reward_risk = (o["target"] - o["entry"]) / risk_per_share if risk_per_share else 0
+        reasons = []
+        if o["max_loss"] > max_loss_per_trade:
+            reasons.append("max loss over limit")
+        if reward_risk < min_reward_risk:
+            reasons.append("reward:risk under minimum")
+        if not window_ok:
+            reasons.append("outside entry window")
+        verdicts.append({"fingerprint": fp, "verdict": "PASS" if not reasons else "BLOCK", "reasons": reasons})
+    os.makedirs("trader/state", exist_ok=True)
+    with open("trader/state/risk.json", "w") as f:
+        json.dump({"date": now.strftime("%Y-%m-%d"), "results": verdicts}, f, indent=2)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,13 @@
+{
+  "orders": [
+    {
+      "fingerprint": "3fb257d15fc0a668",
+      "date": "2026-11-13",
+      "at": "2026-11-13T03:45:05.320789",
+      "status": "approved",
+      "reply": "yes",
+      "symbol": "RELIANCE",
+      "plain": "buy 2 RELIANCE"
+    }
+  ]
+}
